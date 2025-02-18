@@ -1,0 +1,21 @@
+.body {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f4f4f4;
+    .home {
+        width: 100%;
+        display: flex;
+        border-top-left-radius: 10px;
+        margin: 2rem auto auto;
+        overflow: hidden;
+        .right-page {
+            width: 100%;
+            height: 95.5vh;
+            background-color: #fff;
+            z-index: 1;
+        }
+    }
+}

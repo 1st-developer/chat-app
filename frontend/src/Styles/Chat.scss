@@ -1,0 +1,144 @@
+.chat {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    header {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        background: #fff;
+        color: #000;
+        border-bottom: 1px solid #ddd;
+        box-shadow: 0 1px 5px #f4f4f4;
+        .header {
+            display: flex;
+            gap: 10px;
+            .name {
+                font-size: 1rem;
+                h2 {
+                    font-size: 1.1rem;
+                    font-weight: 800;
+                }
+            }
+            .profile {
+                width: 50px;
+                height: 50px;
+                border-radius: 30rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 1.3rem;
+                border: 1px solid #bbb;
+                overflow: hidden;
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    transition: .4s ease;
+                    cursor: pointer;
+                    &:hover {
+                        scale: 1.1;
+                    }
+                }
+            }
+        }
+    }
+    .chat-messages {
+        width: 100%;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        .message-bubble {
+            background-color: #0e913c;
+            padding: 7px 15px;
+            border-radius: 10px;
+            align-self: flex-start;
+            color: #fff;
+            position: relative;
+            &:hover {
+                .message-actions {
+                    opacity: 1;
+                }
+            }
+        }
+        .message-actions {
+            opacity: 0;
+            position: absolute;
+            top: 50%;
+            right: -60px; 
+            transform: translateY(-50%) translateX(45%);
+            gap: 20px;
+            background: #f4f4f4;
+            border-radius: 10px;
+            padding: 5px;
+            overflow: hidden;
+            display: flex; 
+            transition: all .3s ease;
+            button{
+                width: 30px;
+                height: 30px;
+                background: #000;
+                color: #fff;
+                border-radius: 8px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+            }
+            .btn-delete {
+                background: red;
+                border: none;
+            }
+        }
+    }
+    .footer {
+        position: absolute;
+        bottom: 1rem;
+        width: 100%;
+        .frame {
+            width: 80%;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 30rem;
+            overflow: hidden;
+            .send {
+                width: 45px;
+                height: 45px;
+                background: #111;
+                color: #fff;
+                font-size: 1.6rem;
+                border-radius: 30rem;
+                overflow: hidden;
+                label {
+                    width: 100%;
+                    height: 100%;
+                    transition: .4s;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: pointer;
+                    &:hover {
+                        scale: 1.3;
+                    }
+                }
+            }
+            input {
+                width: 94%;
+                height: 45px;
+                border-radius: 30rem;
+                background: transparent;
+                outline: none;
+                border: 1px solid #bbb;
+                padding: 20px;
+                &:focus {
+                    border: 1px solid blue;
+                }
+            }
+        }
+    }
+}

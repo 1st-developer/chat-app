@@ -1,0 +1,169 @@
+.Register {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .Register-page {
+        width: 60%;
+        border-radius: 10px;
+        box-shadow: 0 2px 20px #ddd;
+        overflow: hidden;
+        display: flex;
+        font-family: "Roboto", serif;
+        .wrapper {
+            width: 39%;
+            height: 90vh;
+            border-radius: 10px;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #fff;
+            form {
+                width: 80%;
+                height: 95%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                .form {
+                    width: 100%;
+                    margin: auto;
+                    display: grid;
+                    .wrapper-logo {
+                        width: 100%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        font-size: 2rem;
+                        margin-bottom: 1rem;
+                        font-family: "Roboto", serif;
+                    }
+                    .details {
+                        display: grid;
+                        text-align: center;
+                        h2 {
+                            font-size: 2.2rem;
+                            font-weight: bold;
+                        }
+                        p {
+                            font-size: 0.9rem;
+                            color: gray;
+                            font-family: "Roboto", serif;
+                        }
+                    }
+                    .input-box {
+                        position: relative;
+                        width: 100%;
+                        height: 40px;
+                        border-bottom: 2px solid #000;
+                        margin: 1rem 0 0;
+                        input {
+                            width: 90%;
+                            height: 100%;
+                            border: none;
+                            outline: none;
+                            font-size: 1rem;
+                            color: #000;
+                            font-family: "Roboto", serif;
+                        }
+                        input[type="number"]::-webkit-outer-spin-button,
+                        input[type="number"]::-webkit-inner-spin-button {
+                            -webkit-appearance: none;
+                        }
+                        label {
+                            position: absolute;
+                            top: 50%;
+                            left: 0;
+                            transform: translateY(-50%);
+                            font-size: 1rem;
+                            pointer-events: none;
+                            transition: .5s;
+                            font-family: "Roboto", serif;
+                        }
+                        .iconic {
+                            position: absolute;
+                            right: 0;
+                            bottom: 0.5rem;
+                        }
+                        
+                    }
+                    .input-box input:focus ~ label,
+                    .input-box input:not(:placeholder-shown) ~ label {
+                        top: 0;
+                        font-size: 0.85rem;
+                        color: black;
+                    }
+                    .remember-forgot {
+                        width: 100%;
+                        margin: 1.5rem 0;
+                        accent-color: #000;
+                        font-size: 1rem;
+                        label {
+                            display: flex;
+                            align-items: center;
+                            gap: 5px;
+                            font-family: "Roboto", serif;
+                            cursor: pointer;
+                        }
+                    }
+                    .form-button {
+                        button {
+                            width: 100%;
+                            height: 40px;
+                            border-radius: 30rem;
+                            background: #000;
+                            color: #fff;
+                            border: none;
+                            font-size: 1rem;
+                            font-weight: bold;
+                            font-family: "Roboto", serif;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            cursor: pointer;
+                        }
+                    }
+                    .form-footer {
+                        width: 100%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        gap: 5px;
+                        margin: 1rem 0 0;
+                        p {
+                            font-family: "Roboto", serif;
+                        }
+                        a {
+                            font-weight: bold;
+                            text-decoration: none;
+                            color: #000;
+                            font-family: "Roboto", serif;
+                            &:hover {
+                                text-decoration: underline;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .wrapper-details {
+            width: 60%;
+            height: 85vh;
+            background: transparent;
+            .img {
+                width: 100%;
+                height: 100%;
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+    }
+    .error {
+        color: red;
+        font-weight: bold;
+        transform: translateY(5px);
+    }
+}

@@ -1,0 +1,5 @@
+export const serverError = "Oops! Something went wrong with the server!"
+export const exist = "User already exist!"
+export const incorrect = "Incorrect email or password!"
+export const notFound = "User not found"
+export const notSame = "Validation error the password and cornfirm_password must have the same value! "

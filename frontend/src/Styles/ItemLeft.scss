@@ -1,0 +1,156 @@
+.item-left {
+    position: relative;
+    width: 50px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    .top {
+        display: grid;
+        gap: 15px;
+        .menu {
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+        .message, .calls, .status {
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .logo {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 30rem;
+            overflow: hidden;
+            margin-top: 0.5rem;
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+    .my-account {
+        display: grid;
+        gap: 15px;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 1rem;
+        .setting {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 30rem;
+            font-size: 1.8rem;
+            border: none;
+            z-index: 20;
+            cursor: pointer;
+        }
+        .profile {
+            margin: auto;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 30rem;
+            overflow: hidden;
+            z-index: 20;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            h2 {
+            font-weight: bold;
+            font-size: 1.3rem;
+            transition: .3s;
+            cursor: pointer;
+            &:hover {
+                scale: 1.2;
+            }
+            }
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: .4s;
+                cursor: pointer;
+                &:hover {
+                    scale: 1.1;
+                }
+            }
+        }
+    }
+}
+
+.frame {
+    display: grid;
+    gap: 2rem;
+    .together {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        .sec {
+            .h2-name {
+                font-size: 1.2rem;
+                font-weight: bold;
+                user-select: none;
+            }
+            .p-email {
+                line-height: 1rem;
+                word-break: break-all;
+                user-select: none;
+            }
+        }
+        .sec-profile {
+            position: relative;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 30rem;
+            z-index: 20;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: default;
+            h2 {
+            font-weight: bold;
+            font-size: 1.7rem;
+            user-select: none;
+        }
+        img {
+            width: 100%;
+            height: 100%;
+            border-radius: 30rem;
+            object-fit: cover;
+        }
+        span {
+            position: absolute;
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 30rem;
+            right: 0;
+            bottom: -0.3rem;
+            background: #00dbd0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            &:hover {
+                background: #01c9bf;
+            }
+            label {
+                font-size: 0.8rem;
+                color: #fff;
+            }
+        }
+        }
+    }
+    .logout-btn {
+        width: 100%;
+        height: 45px;
+        border-radius: 10px;
+        background: red;
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+    }
+}

@@ -1,0 +1,83 @@
+.left-page {
+    width: 400px;
+    height: 95.5vh;
+    background: #fff;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    .user-search {
+        width: 90%;
+        height: 45px;
+        border-radius: 30rem;
+        margin: 1rem auto;
+        input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            outline: none;
+            padding: 20px;
+            font-size: 1rem;
+            border: 1px solid #bbb;
+            border-radius: 30rem;
+            &:focus {
+                border: 1px solid blue;
+            }
+        }
+    }
+    .container {
+        margin: 1rem 0 1rem;
+        .parent {
+            width: 100%;
+            .user {
+                display: flex;
+                justify-content: space-between;
+                padding: 15px;
+                transition: .2s;
+                &:hover {
+                    background: #f4f4f4;
+                }
+                .together {
+                    display: flex;
+                    gap: 10px;
+                    .profile {
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 30rem;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border: 1px solid #bbb;
+                        overflow: hidden;
+                        cursor: pointer;
+                        h2 {
+                            font-size: 1.3rem;
+                            transition: 0.3s;
+                            &:hover {
+                                scale: 1.2;
+                            }
+                        }
+                        img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                            cursor: pointer;
+                            transition: .4s;
+                            &:hover {
+                                scale: 1.1;
+                            }
+                        }
+                    }
+                    .details {
+                        .name {
+                            font-size: 1rem;
+                            font-weight: 800;
+                        }
+                        .description {
+                            font-size: 1rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
