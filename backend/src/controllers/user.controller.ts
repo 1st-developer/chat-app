@@ -52,6 +52,7 @@ export const registerUser = async (req: Request, res: Response) => {
                 full_name: data.full_name,
                 phone_number: data.phone_number,
                 password: hashedPassword,
+                profile: data.profile
             }
         });
 

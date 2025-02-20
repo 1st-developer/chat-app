@@ -36,7 +36,7 @@ function UserList() {
             <div onClick={() => navigate(`/chat/${u.id}`)} className="user">
               <div className="together">
                 <div className="profile">
-                  {u.full_name[0].toUpperCase()}
+                {u.profile ? <img src={u.profile} /> : <h2>{u.full_name[0].toUpperCase()}</h2>}
                 </div>
                 <div className="details">
                   <h2 className="name">{u.full_name}</h2>

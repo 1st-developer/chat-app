@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios, {AxiosError} from "axios"
-import { BASE_API_URL, DAFAULT_ERROR_MESSAGE } from "../../../constants";
+import { BASE_API_URL, DEFAULT_ERROR_MESSAGE } from "../../../constants";
 import { IRegisterBody, IRegisterResponse } from "@/types/register";
 
 const DAFAULT_USER_DATA = localStorage.getItem("registerData") ? JSON.parse(localStorage.getItem("registerData")!) : {}
@@ -20,9 +20,9 @@ export const registerFn = createAsyncThunk("auth/register", async (data : IRegis
         
     } catch (error) {
         if(error instanceof AxiosError ) {
-            return rejectWithValue(error.response?.data.Message || DAFAULT_ERROR_MESSAGE);
+            return rejectWithValue(error.response?.data.Message || DEFAULT_ERROR_MESSAGE);
         }
-        return rejectWithValue(DAFAULT_ERROR_MESSAGE);
+        return rejectWithValue(DEFAULT_ERROR_MESSAGE);
     }
 
 });

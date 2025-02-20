@@ -1,4 +1,4 @@
 export interface ICreateMessage {
-    id: number;
+    user_Id: number;
     content: string;
 }

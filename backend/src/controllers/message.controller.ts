@@ -9,13 +9,13 @@ export const createMessage = async (req: Request, res: Response) => {
 
         const data: ICreateMessage = req.body;
 
-        const findUser = await primsa.users.findFirst({
+        const user = await primsa.users.findFirst({
             where:{
-                id: data.id
+                id: data.user_Id
             }
         });
 
-        if(!findUser) {
+        if(!user) {
             res.status(400).json({
                 isSuccess: false,
                 Message: notFound
@@ -26,7 +26,7 @@ export const createMessage = async (req: Request, res: Response) => {
 
         const Message = await primsa.message.create({
             data: {
-                user_Id: data.id,
+                user_Id: data.user_Id,
                 content: data.content
             }
         });

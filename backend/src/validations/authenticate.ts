@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken"
 import { AuthRequest } from "../types/request";
 const key = process.env.JWT_SECRET_KEY;
 
-export const whoamiValidationMiddlewere = (req: AuthRequest, res: Response, nex: NextFunction) => {
+export const authenticate = (req: AuthRequest, res: Response, nex: NextFunction) => {
     try {
 
         const authHeader = req.headers.authorization

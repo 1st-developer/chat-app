@@ -2,81 +2,55 @@ import { useParams } from "react-router-dom";
 import "../Styles/Chat.scss";
 import NotFound from "./NotFound";
 import { IoIosSend } from "react-icons/io";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { userListFn } from "@/redux/slices/user.list.slice";
-
-interface UserMessages {
-  [key: number]: string[]; // Maps user IDs to their respective messages
-}
+import { createMessageFn } from "@/redux/slices/Message.slice";
 
 function Chat() {
-
   const [messageInput, setMessageInput] = useState("");
-  const [userMessages, setUserMessages] = useState<UserMessages>({});
-  const [editingIndex, setEditingIndex] = useState<number | null>(null);
-
-  // Handle message sending
-  const handleSendMessage = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (messageInput.trim()) {
-      if (editingIndex !== null) {
-        // Update existing message
-        setUserMessages((prevMessages) => {
-          const updatedMessages = [...(prevMessages[userId] || [])];
-          updatedMessages[editingIndex] = messageInput;
-          return { ...prevMessages, [userId]: updatedMessages };
-        });
-        setEditingIndex(null);
-      } else {
-        // Add new message
-        setUserMessages((prevMessages) => ({
-          ...prevMessages,
-          [userId]: [...(prevMessages[userId] || []), messageInput],
-        }));
-      }
-      setMessageInput("");
-    }
-  };
-
-  // Handle message editing
-  const handleEditMessage = (index: number) => {
-    setMessageInput(userMessages[userId][index]);
-    setEditingIndex(index);
-  };
-
-  // Handle message deletion
-  const handleDeleteMessage = (index: number) => {
-    setUserMessages((prevMessages) => {
-      const updatedMessages = [...(prevMessages[userId] || [])];
-      updatedMessages.splice(index, 1);
-      return { ...prevMessages, [userId]: updatedMessages };
-    });
-  };
-
   const dispatch = useDispatch<AppDispatch>();
-  const listUsersState = useSelector((state:RootState) => state.listSlice);
+  const listUsersState = useSelector((state: RootState) => state.listSlice);
+  const messageState = useSelector((state: RootState) => state.createMessageSlice);
+  const loginState = useSelector((state: RootState) => state.loginSlice);
 
-  useEffect(()=> {
+  useEffect(() => {
     dispatch(userListFn());
-  },[]);
+  }, [dispatch]);
 
   const { ID } = useParams();
   const userId = Number(ID);
-  const users = listUsersState.data?.users || []
+  const users = listUsersState.data?.users || [];
   const FindUser = users.find((user) => user.id === userId);
   if (!FindUser) return <NotFound />;
+
+
+  const createMessage = (e: FormEvent) => {
+    e.preventDefault();
+    if (!messageInput.trim()) {
+      alert("Please enter a valid comment");
+      return;
+    }
+  
+    dispatch(
+      createMessageFn({
+        user_Id: loginState.data.user.id,
+        content: messageInput, 
+      })
+    );
+  
+    setMessageInput("");
+  };
+  
 
   return (
     <div className="chat">
       <header>
         <div className="header">
-          <div className="profile">
-            {FindUser.full_name[0].toUpperCase()}
-          </div>
+          <div className="profile">{FindUser.profile ? <img src={FindUser.profile} /> : FindUser.full_name[0].toUpperCase()}</div>
           <div className="name">
             <h2>{FindUser.full_name}</h2>
             <p>Offline</p>
@@ -85,24 +59,20 @@ function Chat() {
       </header>
 
       <div className="chat-messages">
-        {(userMessages[userId] || []).map((msg, index) => (
+        {messageState.data?.messages?.map((msg: any, index: any) => (
           <div key={index} className="message-bubble">
-            <p>{msg}</p>
-            <div className="message-actions">
-              <button className="btn-edit" onClick={() => handleEditMessage(index)}><FaRegEdit /></button>
-              <button className="btn-delete" onClick={() => handleDeleteMessage(index)}><MdDelete /></button>
-            </div>
+            <p>{msg.message}</p>
           </div>
         ))}
       </div>
 
-      <form onSubmit={handleSendMessage}>
+      <form onSubmit={createMessage}>
         <div className="footer">
           <div className="frame">
             <div className="send">
-              <label onClick={handleSendMessage} >
-                <IoIosSend />
-              </label>
+              <button type="submit" disabled={messageState.loading}>
+                {messageState.loading ? "Loading" : <IoIosSend />}
+              </button>
             </div>
             <input
               value={messageInput}

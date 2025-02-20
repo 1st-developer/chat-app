@@ -4,6 +4,7 @@ export interface IRegisterUser {
     email: string;
     password: string;
     cornfirm_password: string;
+    profile: string;
 }
 
 export interface ILoginUser {

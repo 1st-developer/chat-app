@@ -13,7 +13,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 
 function ItemLeft() {
@@ -27,11 +27,7 @@ function ItemLeft() {
   
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [img, setImg] = useState<string | null>(localStorage.getItem("src") || null);
-
-  useEffect(() => {
-    localStorage.setItem("src", img || "");
-  }, [img]);
+  const [img, setImg] = useState("");
 
   const upload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -68,7 +64,7 @@ function ItemLeft() {
   {img ? (
     <img src={img} alt="Profile" />
   ) : (
-    <h2>{loginState.data.user?.full_name[0].toUpperCase()}</h2>
+    loginState.data?.user?.profile ? <img src={loginState.data?.user?.profile} />: <h2>{loginState.data?.user?.full_name[0].toUpperCase()}</h2>
   )}
 </div>
 
@@ -81,7 +77,7 @@ function ItemLeft() {
   {img ? (
     <img src={img} alt="Profile" />
   ) : (
-    <h2>{loginState.data.user?.full_name[0].toUpperCase()}</h2>
+    loginState.data?.user?.profile ? <img src={loginState.data?.user?.profile} />: <h2>{loginState.data?.user?.full_name[0].toUpperCase()}</h2>
   )}
   <span onClick={() => fileInputRef.current?.click()}><input 
         type="file" 

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios, {AxiosError} from "axios"
 import { IListUsersResponse } from "@/types/user.list";
-import { BASE_API_URL, DAFAULT_ERROR_MESSAGE } from "@/constants";
+import { BASE_API_URL, DEFAULT_ERROR_MESSAGE } from "@/constants";
 
 
 const initialState = {
@@ -19,9 +19,9 @@ export const userListFn = createAsyncThunk("users/list", async (_, {rejectWithVa
         
     } catch (error) {
         if(error instanceof AxiosError ) {
-            return rejectWithValue(error.response?.data.Message || DAFAULT_ERROR_MESSAGE);
+            return rejectWithValue(error.response?.data.Message || DEFAULT_ERROR_MESSAGE);
         }
-        return rejectWithValue(DAFAULT_ERROR_MESSAGE);
+        return rejectWithValue(DEFAULT_ERROR_MESSAGE);
     }
 
 });

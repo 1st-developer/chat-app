@@ -9,6 +9,7 @@ export interface User {
     full_name:    string;
     phone_number: string;
     email:        string;
+    profile:      string;
     created_At:   Date; 
     updated_At:   Date;
     last_login:   Date;

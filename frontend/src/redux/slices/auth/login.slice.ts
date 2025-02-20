@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { ILoginBody, ILoginResponse } from "../../../types/login";
 import axios, {AxiosError} from "axios"
-import { BASE_API_URL, DAFAULT_ERROR_MESSAGE } from "../../../constants";
+import { BASE_API_URL, DEFAULT_ERROR_MESSAGE } from "../../../constants";
 
 const DAFAULT_USER_DATA = localStorage.getItem("userData") ? JSON.parse(localStorage.getItem("userData")!) : {}
 
@@ -20,9 +20,9 @@ export const loginFn = createAsyncThunk("auth/login", async (data : ILoginBody, 
         
     } catch (error) {
         if(error instanceof AxiosError ) {
-            return rejectWithValue(error.response?.data.Message || DAFAULT_ERROR_MESSAGE);
+            return rejectWithValue(error.response?.data.Message || DEFAULT_ERROR_MESSAGE);
         }
-        return rejectWithValue(DAFAULT_ERROR_MESSAGE);
+        return rejectWithValue(DEFAULT_ERROR_MESSAGE);
     }
 
 });
