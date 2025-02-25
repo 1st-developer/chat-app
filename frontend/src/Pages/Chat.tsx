@@ -59,11 +59,9 @@ function Chat() {
       </header>
 
       <div className="chat-messages">
-        {messageState.data?.messages?.map((msg: any, index: any) => (
-          <div key={index} className="message-bubble">
-            <p>{msg.message}</p>
-          </div>
-        ))}
+        {messageState.data?.content ? <div className="message-bubble">
+      <p>{messageState.data.content.content}</p>
+    </div>: <p>Make your first chat</p>}
       </div>
 
       <form onSubmit={createMessage}>

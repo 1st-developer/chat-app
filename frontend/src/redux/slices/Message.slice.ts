@@ -1,12 +1,12 @@
 import { BASE_API_URL, DEFAULT_ERROR_MESSAGE } from '@/constants';
-import { ICreateMessageBody } from '@/types/message';
+import { ICreateMessageBody, ICreateMessageResponse } from '@/types/message';
 
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 
 const initialState = {
     loading: false,
-    data: {} as any,
+    data: {} as ICreateMessageResponse,
     error: ''
 };
 
@@ -40,26 +40,26 @@ export const createMessageSlice = createSlice({
     reducers: {
         resetcreateMessageFn: (state) => {
             state.loading = false;
-            state.data = {} as any;
+            state.data = {} as ICreateMessageResponse;
             state.error = '';
         }
     },
     extraReducers(builder) {
         builder.addCase(createMessageFn.pending, (state) => {
             state.loading = true;
-            state.data = {} as any;
+            state.data = {} as ICreateMessageResponse;
             state.error = '';
         });
 
         builder.addCase(createMessageFn.fulfilled, (state, action) => {
             state.loading = false;
-            state.data = action.payload as any;
+            state.data = action.payload as ICreateMessageResponse;
             state.error = '';
         });
 
         builder.addCase(createMessageFn.rejected, (state, action) => {
             state.loading = false;
-            state.data = {} as any;
+            state.data = {} as ICreateMessageResponse;
             state.error = String(action.payload);
         });
     }
