@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import "../../Styles/Register.scss";
 import { MdEmail, MdAddCall } from "react-icons/md";
-import { FaLock } from "react-icons/fa6";
+import { FaLock, FaPlus } from "react-icons/fa6";
 import { GiAtom } from "react-icons/gi";
 import { IoPerson } from "react-icons/io5";
 import { useFormik } from "formik";
@@ -9,10 +9,11 @@ import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { logout, registerFn } from "@/redux/slices/auth/register.slice";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import "../../Styles/loading.css"
 import { IRegisterBody } from "@/types/register";
+import axios from "axios";
 
 function Register() {
 
@@ -48,13 +49,12 @@ function Register() {
                 email: values.email,
                 password: values.password,
                 cornfirm_password: values.confirmPassword, 
+                profile: img
             };            
             dispatch(registerFn(data))
         },
     });
     
-
-    // automaticaly navigate to home page if registerState.data.isSuccess
     useEffect(() => {
         if(registerState.error) {
             toast.error(registerState.error)
@@ -64,7 +64,40 @@ function Register() {
             localStorage.setItem("userData", JSON.stringify(registerState.data));
             navigate("/auth/login");
         }
-    }, [registerState.error, registerState.data.isSuccess])
+    }, [registerState.error, registerState.data.isSuccess]);
+
+
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const [img, setImg] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    const upload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        try {
+          const file = e.target.files;
+          if (file && file[0]) {
+            setLoading(true);
+            const data = new FormData();
+            data.append("file", file[0]);
+            data.append("upload_preset", "my_cloudinary_store");
+            data.append("cloud_name", "dytzmdcdt");
+      
+            const response = await axios.post("https://api.cloudinary.com/v1_1/dytzmdcdt/image/upload", data,
+              {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                },
+              }
+            );
+            
+            if (response.data.secure_url) {
+              setImg(response.data.secure_url);
+              setLoading(false);
+            }
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      };
     
 
 
@@ -72,9 +105,17 @@ function Register() {
         <div className="Register">
             <div className="Register-page">
                 <div className="wrapper-details">
-                    <div className="img">
-                        <img src="/img/tree.svg" alt="Background" />
+                    <div className="img" style={{border: img ? "": "1px solid #bbb"}}>
+                        {loading ? <div className="loader">
+                            <div className="loader-orbits">
+                              <div className="loader-orbits__electron"></div>
+                              <div className="loader-orbits__electron"></div>
+                              <div className="loader-orbits__electron"></div>
+                            </div>
+                            </div>: img ? <img src={img} />: <h2>{formik.touched.email}</h2>}
                     </div>
+                    <input type="file" accept="image/*" ref={fileInputRef} onChange={upload} style={{display: "none"}} />
+                    <button disabled={loading} onClick={() => fileInputRef.current?.click()}><FaPlus /></button>
                 </div>
                 <div className="wrapper">
                     <form onSubmit={formik.handleSubmit}>

@@ -9,12 +9,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { userListFn } from "@/redux/slices/user.list.slice";
 import { createMessageFn } from "@/redux/slices/Message.slice";
+import { getAllMessageFn } from "@/redux/slices/getAllMessage.slice";
 
 function Chat() {
   const [messageInput, setMessageInput] = useState("");
   const dispatch = useDispatch<AppDispatch>();
   const listUsersState = useSelector((state: RootState) => state.listSlice);
   const messageState = useSelector((state: RootState) => state.createMessageSlice);
+  const getAllMessagesState = useSelector((state: RootState) => state.getAllMessageSlice);
   const loginState = useSelector((state: RootState) => state.loginSlice);
 
   useEffect(() => {
@@ -22,9 +24,8 @@ function Chat() {
   }, [dispatch]);
 
   const { ID } = useParams();
-  const userId = Number(ID);
   const users = listUsersState.data?.users || [];
-  const FindUser = users.find((user) => user.id === userId);
+  const FindUser = users.find((user) => user.id === +ID!);
   if (!FindUser) return <NotFound />;
 
 
@@ -39,8 +40,13 @@ function Chat() {
       createMessageFn({
         user_Id: loginState.data.user.id,
         content: messageInput, 
-      })
-    );
+        to_user_Id: +ID!,
+        token: loginState.data?.token
+      }));
+
+      dispatch(getAllMessageFn({
+        token: loginState.data?.token
+      }));
   
     setMessageInput("");
   };
@@ -59,9 +65,10 @@ function Chat() {
       </header>
 
       <div className="chat-messages">
-        {messageState.data?.content ? <div className="message-bubble">
-      <p>{messageState.data.content.content}</p>
-    </div>: <p>Make your first chat</p>}
+        {getAllMessagesState.data?.Messages?.map((text) => 
+        <div className="message-bubble" key={text.id}>
+          <p>{text.content}</p>
+        </div>)}
       </div>
 
       <form onSubmit={createMessage}>

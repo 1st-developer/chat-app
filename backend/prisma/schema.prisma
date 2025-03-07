@@ -18,14 +18,15 @@ model Users {
   created_At DateTime @default(now())
   updated_At DateTime @updatedAt
   last_login DateTime @default(now())
-  message Message[]
+  messages Messages[]
 }
 
-model Message {
+model Messages {
   id String @id @default(uuid())
   content String
   created_At DateTime @default(now())
   updated_At DateTime @updatedAt
   user_Id Int
+  to_user_Id Int
   user Users @relation(fields: [user_Id], references: [id])
 }

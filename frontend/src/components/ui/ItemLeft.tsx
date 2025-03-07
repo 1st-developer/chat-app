@@ -14,6 +14,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { useRef, useState } from "react";
+import axios from "axios";
 
 
 function ItemLeft() {
@@ -24,17 +25,40 @@ function ItemLeft() {
   const logoutHandle = () => {
     dispatch(logout());
   }
+
+  const user = loginState.data?.user
+
+      const fileInputRef = useRef<HTMLInputElement>(null);
+      const [img, setImg] = useState("");
+      const [loading, setLoading] = useState(false);
   
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const [img, setImg] = useState("");
-
-  const upload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const newImage = URL.createObjectURL(e.target.files[0]);
-      setImg(newImage); 
-    }
-  };  
+      const upload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+          try {
+            const file = e.target.files;
+            if (file && file[0]) {
+              setLoading(true);
+              const data = new FormData();
+              data.append("file", file[0]);
+              data.append("upload_preset", "my_cloudinary_store");
+              data.append("cloud_name", "dytzmdcdt");
+        
+              const response = await axios.post("https://api.cloudinary.com/v1_1/dytzmdcdt/image/upload", data,
+                {
+                  headers: {
+                    "Content-Type": "multipart/form-data",
+                  },
+                }
+              );
+              
+              if (response.data.secure_url) {
+                setImg(response.data.secure_url);
+                setLoading(false);
+              }
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        };
 
   return (
     <div className="item-left">
@@ -60,11 +84,17 @@ function ItemLeft() {
         </button>
         <Popover>
 <PopoverTrigger>
-<div className="profile" style={{border: img ? "": "1px solid #bbb"}}>
-  {img ? (
-    <img src={img} alt="Profile" />
+<div className="profile" style={{border: user?.profile ? "": img ? "": "1px solid #bbb"}}>
+  {loading ? <div className="loader">
+    <div className="loader-orbits">
+      <div className="loader-orbits__electron"></div>
+      <div className="loader-orbits__electron"></div>
+      <div className="loader-orbits__electron"></div>
+    </div>
+  </div>: img ? (
+  <img src={img} alt="Profile" />
   ) : (
-    loginState.data?.user?.profile ? <img src={loginState.data?.user?.profile} />: <h2>{loginState.data?.user?.full_name[0].toUpperCase()}</h2>
+    user?.profile ? <img src={user.profile} />: <h2>{user?.full_name[0]?.toUpperCase()}</h2>
   )}
 </div>
 
@@ -73,26 +103,32 @@ function ItemLeft() {
 <div className="frame">
 
   <div className="together">
-  <div className="sec-profile" style={{border: img ? "": "1px solid #bbb"}}>
-  {img ? (
-    <img src={img} alt="Profile" />
+  <div className="sec-profile" style={{border: user?.profile ? "": "1px solid #bbb"}}>
+  {loading ? <div className="loader">
+    <div className="loader-orbits">
+      <div className="loader-orbits__electron"></div>
+      <div className="loader-orbits__electron"></div>
+      <div className="loader-orbits__electron"></div>
+    </div>
+  </div>: img ? (
+  <img src={img} />
   ) : (
-    loginState.data?.user?.profile ? <img src={loginState.data?.user?.profile} />: <h2>{loginState.data?.user?.full_name[0].toUpperCase()}</h2>
+    user?.profile ? <img src={user.profile} />: <h2>{user?.full_name[0]?.toUpperCase()}</h2>
   )}
-  <span onClick={() => fileInputRef.current?.click()}><input 
+  <button disabled={loading} onClick={() => fileInputRef.current?.click()}><input 
         type="file" 
         accept="image/*" 
         ref={fileInputRef} 
         onChange={upload} 
         style={{ display: "none" }}
-      /><label><FaPlus /></label></span>
+      /><label><FaPlus /></label></button>
         </div>
         <div className="sec">
         <div className="h2-name">
-        <h2>{loginState.data.user?.full_name}</h2>
+        <h2>{user?.full_name}</h2>
         </div>
         <div className="p-email">
-        <p>{loginState.data.user?.email}</p>
+        <p>{user?.email}</p>
         </div>
         </div>
   </div>

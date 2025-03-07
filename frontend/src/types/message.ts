@@ -1,7 +1,7 @@
 export interface ICreateMessageResponse {
     isSuccess: boolean;
     Message:   string;
-    content:   Content;
+    content:   Content[];
 }
 
 export interface Content {
@@ -13,6 +13,27 @@ export interface Content {
 }
 
 export interface ICreateMessageBody {
-    user_Id: number;
     content: string;
+    user_Id: number;
+    to_user_Id: number;
+    token: string;
+}
+
+export interface IListMessagesResponse {
+    isSuccess: boolean;
+    Message:   string;
+    Messages:  Message[];
+}
+
+export interface Message {
+    id:         string;
+    content:    string;
+    created_At: Date;
+    updated_At: Date;
+    user_Id:    number;
+    to_user_Id: number;
+}
+
+export interface IListMessagesBody {
+    token: string;
 }

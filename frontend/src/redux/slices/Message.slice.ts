@@ -10,16 +10,11 @@ const initialState = {
     error: ''
 };
 
-export const createMessageFn = createAsyncThunk(
-    'message/create',
-    async (data: ICreateMessageBody, { rejectWithValue, getState }) => {
-        const stateData: any = getState();
-        const { token } = stateData?.loginSlice?.data;
-
+export const createMessageFn = createAsyncThunk('message/create', async (data: ICreateMessageBody, { rejectWithValue }) => {
         try {
             const res = await axios.post(`${BASE_API_URL}/message/create`, data, {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${data.token}`
                 }
             });
             return res.data;

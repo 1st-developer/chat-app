@@ -21,4 +21,5 @@ export interface IRegisterBody {
     email: string;
     password: string;
     cornfirm_password: string;
+    profile: string;
 }
