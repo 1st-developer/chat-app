@@ -112,7 +112,7 @@ function Register() {
                               <div className="loader-orbits__electron"></div>
                               <div className="loader-orbits__electron"></div>
                             </div>
-                            </div>: img ? <img src={img} />: <h2>{formik.touched.email}</h2>}
+                            </div>: img ? <img src={img} />: <h2 className="text-[7rem]">{formik.values?.fullName[0]?.toUpperCase()}</h2>}
                     </div>
                     <input type="file" accept="image/*" ref={fileInputRef} onChange={upload} style={{display: "none"}} />
                     <button disabled={loading} onClick={() => fileInputRef.current?.click()}><FaPlus /></button>
