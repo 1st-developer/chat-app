@@ -1,5 +1,5 @@
 import { BASE_API_URL, DEFAULT_ERROR_MESSAGE } from '@/constants';
-import { IListMessagesBody, IListMessagesResponse } from '@/types/message';
+import {IListMessagesResponse } from '@/types/message';
 
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
@@ -10,11 +10,11 @@ const initialState = {
     error: ''
 };
 
-export const getAllMessageFn = createAsyncThunk('message/list', async (data: IListMessagesBody, { rejectWithValue }) => {
+export const getAllMessageFn = createAsyncThunk('message/list', async (token: string, { rejectWithValue }) => {
         try {
             const res = await axios.get(`${BASE_API_URL}/message/list`, {
                 headers: {
-                    Authorization: `Bearer ${data.token}`
+                    Authorization: `Bearer ${token}`
                 }
             });
             return res.data;

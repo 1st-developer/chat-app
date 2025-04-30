@@ -14,7 +14,6 @@ export interface Content {
 
 export interface ICreateMessageBody {
     content: string;
-    user_Id: number;
     to_user_Id: number;
     token: string;
 }
@@ -32,8 +31,4 @@ export interface Message {
     updated_At: Date;
     user_Id:    number;
     to_user_Id: number;
-}
-
-export interface IListMessagesBody {
-    token: string;
 }

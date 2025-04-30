@@ -10,6 +10,7 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { userListFn } from "@/redux/slices/user.list.slice";
 import { createMessageFn } from "@/redux/slices/Message.slice";
 import { getAllMessageFn } from "@/redux/slices/getAllMessage.slice";
+import { getConversationMessagesFn } from "@/redux/slices/conversition.slice";
 
 function Chat() {
   const [messageInput, setMessageInput] = useState("");
@@ -26,8 +27,15 @@ function Chat() {
   const { ID } = useParams();
   const users = listUsersState.data?.users || [];
   const FindUser = users.find((user) => user.id === +ID!);
-  if (!FindUser) return <NotFound />;
 
+  useEffect(() => {
+    if (ID) {
+      dispatch(getConversationMessagesFn({
+        token: loginState.data.token,
+        otherUserId: +ID
+      }));
+    }
+  }, [dispatch, ID]);
 
   const createMessage = (e: FormEvent) => {
     e.preventDefault();
@@ -35,61 +43,69 @@ function Chat() {
       alert("Please enter a valid comment");
       return;
     }
-  
+
     dispatch(
       createMessageFn({
-        user_Id: loginState.data.user.id,
-        content: messageInput, 
+        content: messageInput,
         to_user_Id: +ID!,
-        token: loginState.data?.token
-      }));
+        token: loginState.data.token
+      })
+    );
 
-      dispatch(getAllMessageFn({
-        token: loginState.data?.token
-      }));
-  
+    dispatch(getAllMessageFn(loginState.data.token));
     setMessageInput("");
   };
-  
 
   return (
     <div className="chat">
-      <header>
-        <div className="header">
-          <div className="profile">{FindUser.profile ? <img src={FindUser.profile} /> : FindUser.full_name[0].toUpperCase()}</div>
-          <div className="name">
-            <h2>{FindUser.full_name}</h2>
-            <p>Offline</p>
-          </div>
-        </div>
-      </header>
-
-      <div className="chat-messages">
-        {getAllMessagesState.data?.Messages?.map((text) => 
-        <div className="message-bubble" key={text.id}>
-          <p>{text.content}</p>
-        </div>)}
-      </div>
-
-      <form onSubmit={createMessage}>
-        <div className="footer">
-          <div className="frame">
-            <div className="send">
-              <button type="submit" disabled={messageState.loading}>
-                {messageState.loading ? "Loading" : <IoIosSend />}
-              </button>
+      {!FindUser ? (
+        <NotFound />
+      ) : (
+        <>
+          <header>
+            <div className="header">
+              <div className="profile">
+                {FindUser.profile ? <img src={FindUser.profile} /> : FindUser.full_name[0].toUpperCase()}
+              </div>
+              <div className="name">
+                <h2>{FindUser.full_name}</h2>
+                <p>Offline</p>
+              </div>
             </div>
-            <input
-              value={messageInput}
-              onChange={(e) => setMessageInput(e.target.value)}
-              type="text"
-              placeholder="Type a message"
-            />
+          </header>
+
+          <div className="chat-messages">
+            {getAllMessagesState.data?.Messages?.map((msg) => (
+              <div
+                key={msg.id}
+                className={`message-bubble ${msg.user_Id === loginState.data.user.id ? "sent" : "received"}`}
+              >
+                <p>{msg.content}</p>
+              </div>
+            ))}
           </div>
-        </div>
-      </form>
+
+          <form onSubmit={createMessage}>
+            <div className="footer">
+              <div className="frame">
+                <div className="send">
+                  <button type="submit" disabled={messageState.loading}>
+                    {messageState.loading ? "Loading" : <IoIosSend />}
+                  </button>
+                </div>
+                <input
+                  value={messageInput}
+                  onChange={(e) => setMessageInput(e.target.value)}
+                  type="text"
+                  placeholder="Type a message"
+                />
+              </div>
+            </div>
+          </form>
+        </>
+      )}
     </div>
   );
 }
 
-export default Chat;
+export default Chat
